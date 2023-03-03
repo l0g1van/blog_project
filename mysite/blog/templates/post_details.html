@@ -8,9 +8,11 @@
     </small>
     <br/><br/>
     <h4>{{ post.text }}</h4>
-    <br/>
-    <a class="h6" href="{% url 'update_post' post.pk %}"> (Edit) </a>
-    <br/><br/>
-    <a href="{% url 'home' %}"> <button class="btn btn-secondary"> Back </button> </a>
+    {% if post.author.id == user.id %}
+        <br/>
+        <a class="h6" href="{% url 'update_post' post.pk %}"> (Edit) </a>
+        <br/><br/>
+        <a href="{% url 'home' %}"> <button class="btn btn-secondary"> Back </button> </a>
+    {% endif %}
 </div>
 {% endblock %}
