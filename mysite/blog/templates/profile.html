@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <center>
+    </center>
+    <br/>
+<div class="container">
+
+    <h1> {{ profile.username }}`s Profile: </h1>
+    <br/>
+    <h3> Posts: </h3>
+    <div class="row mt-3 pt-2">
+        <div class="col-md-8">
+            {% for post in posts %}
+                <div class="shadow my-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p> Image must be here </p>
+                            </div>
+                            <div class="col-md-4">
+                                <small> Date must be here </small>
+                                <hr>
+                                <a class="h3" href="home_page.html"> {{ post.title }} </a>
+                                <p class="text-justify my-3">
+                                    {{ post.text }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

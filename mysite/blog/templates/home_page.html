@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row mt-5 pt-3">
+        <div class="col-md-8">
+            {% for post in post_list %}
+                <div class="shadow my-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p> Image must be here </p>
+                            </div>
+                            <div class="col-md-4">
+                                <small> Date must be here </small>
+                                <hr>
+                                <a class="h3" href="{% url 'post_detail' post.pk %}"> {{ post.title }} </a>
+                                <p class="text-justify my-3">
+                                    {{ post.text }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

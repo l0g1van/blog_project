@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1> {{ post.title }} </h1>
+    <small>
+    By: {{ post.author.username }}
+    </small>
+    <br/><br/>
+    <h2>{{ post.text }}</h2>
+    <br/><br/>
+    <a href="{% url 'home' %}"> <button class="btn btn-secondary"> Back </button> </a>
+</div>
+{% endblock %}
