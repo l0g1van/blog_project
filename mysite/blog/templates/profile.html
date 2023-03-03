@@ -21,10 +21,12 @@
                             <div class="col-md-4">
                                 <small> Date must be here </small>
                                 <hr>
-                                <a class="h3" href="home_page.html"> {{ post.title }} </a>
+                                <a class="h3" href="{% url 'post_detail' post.pk %}"> {{ post.title }} </a>
                                 <p class="text-justify my-3">
                                     {{ post.text }}
                                 </p>
+{#                                <hr>#}
+{#                                <a class="h6" href="{% url 'update_post' post.pk %}"> edit </a>#}
                             </div>
                         </div>
                     </div>

@@ -18,7 +18,7 @@ from django.urls import path, include
 
 from blog.views import HomePageView
 
-from blog.views import RegisterView, CreatePostView, PostDetailView, profile_view
+from blog.views import RegisterView, PostDetailView, PostUpdateView, profile_view, logout_view, create_post
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +26,8 @@ urlpatterns = [
     path('post/<int:pk>', PostDetailView.as_view(), name='post_detail'),
     path('register/', RegisterView.as_view(), name='register'),
     path('', include('django.contrib.auth.urls')),
-    path('create/', CreatePostView.as_view(), name='create_post'),
-    path('profile/<int:pk>', profile_view, name='profile_page')
+    path('create/', create_post, name='create_post'),
+    path('profile/<int:pk>', profile_view, name='profile_page'),
+    path('loguot/', logout_view, name='logout'),
+    path('update/<int:pk>', PostUpdateView.as_view(), name='update_post')
 ]

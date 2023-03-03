@@ -15,10 +15,10 @@
                                 <p> Image must be here </p>
                             </div>
                             <div class="col-md-4">
-                                <small> Date must be here </small>
+                                <a class="h2" href="{% url 'post_detail' post.pk %}"> {{ post.title }} </a>
                                 <hr>
-                                <a class="h3" href="{% url 'post_detail' post.pk %}"> {{ post.title }} </a>
-                                <p class="text-justify my-3">
+                                <small> Date must be here </small>
+                                <p class="text-justify my-3 h4">
                                     {{ post.text }}
                                 </p>
                             </div>

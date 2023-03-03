@@ -7,7 +7,9 @@
     By: {{ post.author.username }}
     </small>
     <br/><br/>
-    <h2>{{ post.text }}</h2>
+    <h4>{{ post.text }}</h4>
+    <br/>
+    <a class="h6" href="{% url 'update_post' post.pk %}"> (Edit) </a>
     <br/><br/>
     <a href="{% url 'home' %}"> <button class="btn btn-secondary"> Back </button> </a>
 </div>
