@@ -9,7 +9,7 @@ class Post(models.Model):
     # text = models.TextField()
     text = RichTextField(blank=True, null=True)
     title = models.CharField(max_length=255)
-    snippet = models.CharField(max_length=200)
+    snippet = models.CharField(max_length=200, default='Click Link Above To Get More Info')
 
     def __str__(self):
         return self.title, str(self.author)

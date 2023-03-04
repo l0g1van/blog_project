@@ -35,13 +35,23 @@
           </ul>
       {% else %}
           <ul class="navbar-nav mb-2 mb-lg-0">
-              <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{% url 'profile_page' user.pk %}">Profile</a>
-              </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ user.username }}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile</a></li>
+              </ul>
           </ul>
+{#          <ul class="navbar-nav mb-2 mb-lg-0">#}
+{#              <li class="nav-item">#}
+{#                  <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>#}
+{#              </li>#}
+{#              <li class="nav-item">#}
+{#                  <a class="nav-link active" aria-current="page" href="{% url 'profile_page' user.pk %}">Profile</a>#}
+{#              </li>#}
+{#          </ul>#}
       {% endif %}
     </div>
   </div>
