@@ -23,7 +23,7 @@
                                 <hr>
                                 <a class="h3" href="{% url 'post_detail' post.pk %}"> {{ post.title }} </a>
                                 <p class="text-justify my-3">
-                                    {{ post.text }}
+                                    {{ post.text | safe }}
                                 </p>
 {#                                <hr>#}
 {#                                <a class="h6" href="{% url 'update_post' post.pk %}"> edit </a>#}

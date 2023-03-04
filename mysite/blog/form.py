@@ -10,11 +10,12 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         exclude = ('author', )
-        fields = ('title', 'author', 'text')
+        fields = ('title', 'author', 'text', 'snippet')
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'author': forms.Select(attrs={'class': 'form-control'}),
             'text': forms.Textarea(attrs={'class': 'form-control'}),
+            'snippet': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
 

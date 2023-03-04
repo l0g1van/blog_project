@@ -32,8 +32,8 @@ class RegisterView(generic.CreateView):
 
 class PostUpdateView(generic.UpdateView):
     model = Post
+    form_class = PostForm
     template_name = 'update_post.html'
-    fields = ['title', 'text']
 
 
 # class CreatePostView(LoginRequiredMixin, generic.CreateView):

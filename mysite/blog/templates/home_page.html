@@ -19,7 +19,8 @@
                                 <hr>
                                 <small> Date must be here </small>
                                 <p class="text-justify my-3 h4">
-                                    {{ post.text }}
+{#                                    {{ post.text | safe }}#}
+                                    {{ post.snippet }}
                                 </p>
                             </div>
                         </div>

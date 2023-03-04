@@ -6,13 +6,14 @@
     <small>
     By: {{ post.author.username }}
     </small>
+    <hr>
     <br/><br/>
-    <h4>{{ post.text }}</h4>
+    <h4>{{ post.text | safe }}</h4>
     {% if post.author.id == user.id %}
         <br/>
         <a class="h6" href="{% url 'update_post' post.pk %}"> (Edit) </a>
         <br/><br/>
-        <a href="{% url 'home' %}"> <button class="btn btn-secondary"> Back </button> </a>
     {% endif %}
+    <a href="{% url 'home' %}"> <button class="btn btn-secondary"> Back </button> </a>
 </div>
 {% endblock %}
