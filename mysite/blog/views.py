@@ -6,16 +6,17 @@ from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
-from django.contrib.auth.forms import UserChangeForm
-
+from django.http import JsonResponse
 from blog.models import Post
 
-from blog.form import PostForm, RegisterForm, EditProfileForm, PasswordChangingForm
+from blog.form import PostForm, RegisterForm, EditProfileForm, PasswordChangingForm, ProfileUpdateForm, FeedbackForm
+from blog.task import send_feedback_email
 
 
 class HomePageView(generic.ListView):
     model = Post
     template_name = 'home_page.html'
+    paginate_by = 5
 
 
 class PostDetailView(generic.DetailView):
@@ -69,14 +70,56 @@ def logout_view(request):
     return redirect('home')
 
 
-class UserEditView(generic.UpdateView):
-    form_class = EditProfileForm
-    # model = User
-    template_name = 'edit_profile.html'
-    success_url = 'home'
+# class UserEditView(generic.UpdateView):
+#     form_class = EditProfileForm
+#     second_form_class = ProfileUpdateForm
+#     template_name = 'edit_profile.html'
+#     success_url = 'home'
+#
+#     def get_object(self, queryset=None):
+#         return self.request.user
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(UserEditView, self).get_context_data(**kwargs)
+#         if 'form' not in context:
+#             context['form'] = self.form_class(self.request.GET)
+#         if 'form2' not in context:
+#             context['form'] = self.second_form_class(self.request.GET)
+#         return context
+#
+#     def get(self, request, *args, **kwargs):
+#         super(UserEditView, self).get(request, *args, **kwargs)
+#         form = UserChangeForm(instance=request.user)
+#         form2 = ProfileUpdateForm(instance=request.user)
+#         return render(request, 'edit_profile.html', {'form': form, 'form2': form2})
+#
+#     def post(self, request, *args, **kwargs):
+#         form = UserChangeForm(request.POST or None, instance=request.user)
+#         form2 = ProfileUpdateForm(request.POST or None, request.FILES or None, instance=request.user.profilemodel)
+#         if form.is_valid() and form2.is_valid():
+#             form.save()
+#             form2.save()
+#             return redirect('profile_page')
 
-    def get_object(self, queryset=None):
-        return self.request.user
+
+@login_required(login_url='/login/')
+def profile(request):
+    if request.method == 'POST':
+        u_form = EditProfileForm(request.POST or None, instance=request.user)
+        p_form = ProfileUpdateForm(
+            request.POST or None, request.FILES or None, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            return redirect('profile_page', pk=request.user.pk)
+    else:
+        u_form = EditProfileForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+    context = {
+        'u_form': u_form,
+        'p_form': p_form,
+    }
+    return render(request, 'edit_profile.html', context)
 
 
 class PasswordsChangeView(PasswordChangeView):
@@ -89,3 +132,21 @@ class PasswordsChangeView(PasswordChangeView):
 def password_success(request):
     return render(request, 'registration/password_success.html', {})
 
+
+# def profile(request):
+#     if request.method == 'POST':
+#         e_form = EditProfileForm(request.POST or None, instance=request.user)
+#         p_form = ProfileUpdateForm()
+
+
+def feedback(request):
+    if request.method == 'POST':
+        feedback_text = request.POST.get('feedback-text', '')
+        send_feedback_email.delay(feedback_text, request.user.email)
+        data = {
+            'success': True,
+            'message': 'Thank you for your feedback!'
+        }
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False})

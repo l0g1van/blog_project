@@ -1,3 +1,5 @@
+{% load crispy_forms_tags %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -41,17 +43,66 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-right">
                 <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                <li><a class="dropdown-item" href="{% url 'profile_page' user.pk %}">Profile</a></li>
                 <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile</a></li>
+                <li><a type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      Feedback
+                </a></li>
               </ul>
           </ul>
-{#          <ul class="navbar-nav mb-2 mb-lg-0">#}
-{#              <li class="nav-item">#}
-{#                  <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>#}
-{#              </li>#}
-{#              <li class="nav-item">#}
-{#                  <a class="nav-link active" aria-current="page" href="{% url 'profile_page' user.pk %}">Profile</a>#}
-{#              </li>#}
-{#          </ul>#}
+          <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">feedback</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row">
+                          <div class="col-md-8">
+                              <form id="feedback-form">
+                                  {% csrf_token %}
+                                  <div class="form-group">
+                                      <label for="feedback-text">Feedback:</label>
+                                      <textarea class="form-control" id="feedback-text" name="feedback-text" rows="5"></textarea>
+                                  </div>
+                                  <br/>
+                                  <button type="submit" class="btn btn-primary">Submit</button>
+                              </form>
+                              <div id="feedback-success" style="display: none;">
+                                  Thank you for your feedback!
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <script>
+              $(function() {
+                  $('#feedback-form').on('submit', function(event) {
+                      event.preventDefault();
+                      var feedbackText = $('#feedback-text').val();
+                      $.ajax({
+                          type: 'POST',
+                          url: '{% url "feedback" %}',
+                          data: {
+                              'feedback-text': feedbackText,
+                              'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+                          },
+                          success: function(data) {
+                              if (data.success) {
+                                  $('#feedback-form').hide();
+                                  $('#feedback-success').show();
+                              } else {
+                                  alert('An error occurred while submitting your feedback.');
+                              }
+                          }
+                      });
+                  });
+              });
+          </script>
       {% endif %}
     </div>
   </div>

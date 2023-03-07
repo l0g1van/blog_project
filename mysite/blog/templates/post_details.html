@@ -4,14 +4,13 @@
 <div class="container">
     <h1> {{ post.title }} </h1>
     <small>
-    By: {{ post.author.username }}
+        By: <a href="{% url 'profile_page' post.author.id %}">{{ post.author.username }}</a>
+        <a class="h6" href="{% url 'update_post' post.pk %}"> (Edit) </a>
     </small>
     <hr>
     <br/><br/>
     <h4>{{ post.text | safe }}</h4>
     {% if post.author.id == user.id %}
-        <br/>
-        <a class="h6" href="{% url 'update_post' post.pk %}"> (Edit) </a>
         <br/><br/>
     {% endif %}
     <a href="{% url 'home' %}"> <button class="btn btn-secondary"> Back </button> </a>

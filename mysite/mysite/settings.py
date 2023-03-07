@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ckeditor',
+    'crispy_forms',
+    'crispy_bootstrap5',
 
     'blog'
 ]
@@ -114,6 +116,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -126,3 +130,22 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'home'
+
+MEDIA_ROOT = (BASE_DIR / 'media')
+
+MEDIA_URL = '/media/'
+
+STATIC_ROOT = (BASE_DIR / 'asset')
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_CACHE_BACKEND = 'default'
+CELERY_IMPORTS = ('blog.task',)
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+CELERY_TIMEZONE = TIME_ZONE
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
