@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
 
-from blog.models import Post, Profile
+from blog.models import Post, Profile, Comment
 
 
 class PostForm(forms.ModelForm):
@@ -69,3 +69,12 @@ class FeedbackForm(forms.Form):
     username = forms.CharField(max_length=150)
     email = forms.EmailField(label='Email Address', initial='test@example.com')
     message = forms.CharField(label='Message')
+
+
+class CommentForm(forms.ModelForm):
+    content = forms.CharField(
+        label='', widget=forms.TextInput(attrs={'placeholder': 'Add comment here....'}))
+
+    class Meta:
+        model = Comment
+        fields = ('content',)

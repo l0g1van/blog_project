@@ -18,15 +18,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from blog.views import HomePageView
-
 from blog.views import RegisterView, PostDetailView, PostUpdateView, profile, PasswordsChangeView, \
-    profile_view, logout_view, create_post, password_success, feedback
+    profile_view, logout_view, create_post, password_success, feedback, post_detail, ShowProfilePageView, HomePageView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view(), name='home'),
-    path('post/<int:pk>', PostDetailView.as_view(), name='post_detail'),
+    path('post/<int:pk>', post_detail, name='post_detail'),
     path('register/', RegisterView.as_view(), name='register'),
     path('', include('django.contrib.auth.urls')),
     path('create/', create_post, name='create_post'),
@@ -36,6 +34,7 @@ urlpatterns = [
     path('edit-profile/', profile, name='edit_profile'),
     path('password/', PasswordsChangeView.as_view(template_name='change_password.html')),
     path('password-success', password_success, name='password_success'),
+    path('user-profile/<int:pk>', ShowProfilePageView.as_view(), name='show_profile_page'),
 
     path('feedback/', feedback, name='feedback'),
 ]

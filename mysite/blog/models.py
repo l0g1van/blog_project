@@ -18,6 +18,9 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_detail', args=(str(self.id)))
 
+    def comments(self):
+        return self.comment_set.all()
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -27,3 +30,14 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Comment(models.Model):
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.CharField(max_length=150)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    content = models.CharField(max_length=200)
+    is_published = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.content

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row mt-5 pt-3">
+        <div class="col-md-6 offset-md-3">
+            <div class="card my-3 shadow">
+                <div class="card-body">
+                    <span class="h4">Profile Page</span>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-thumbnail" src="{{ page_user.image.url }}" alt="profile-img">
+                        </div>
+                        <div class="col-md-8">
+                            <h4> Name: {{ page_user.user.first_name }} {{ page_user.user.last_name }} </h4>
+                            <h4>Username: {{ page_user.user.username }}</h4>
+                            <h4>Email: {{ page_user.user.email }} </h4><br/><br/>
+                            {% if page_user.user.pk == request.user.pk %}
+                                <span>
+                                    <a class="btn btn-secondary" href="{% url 'edit_profile' %}">Edit Profile</a>
+                                </span>
+                            {% endif %}
+{#                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">#}
+{#                              Edit Profile#}
+{#                            </button>#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -3,15 +3,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
-from django.core.mail import send_mail
-from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.http import JsonResponse
-from blog.models import Post
+from .models import Post, Profile
 
-from blog.form import PostForm, RegisterForm, EditProfileForm, PasswordChangingForm, ProfileUpdateForm, FeedbackForm
-from blog.task import send_feedback_email
+from .form import PostForm, RegisterForm, EditProfileForm, PasswordChangingForm, ProfileUpdateForm, FeedbackForm, CommentForm
+from .task import send_feedback_email
 
 
 class HomePageView(generic.ListView):
@@ -103,8 +103,9 @@ def logout_view(request):
 #             return redirect('profile_page')
 
 
-@login_required(login_url='/login/')
-def profile(request):
+# @login_required(login_url='/login/')
+def profile(request, pk):
+    page_user = get_object_or_404(Profile, id=pk)
     if request.method == 'POST':
         u_form = EditProfileForm(request.POST or None, instance=request.user)
         p_form = ProfileUpdateForm(
@@ -119,6 +120,7 @@ def profile(request):
     context = {
         'u_form': u_form,
         'p_form': p_form,
+        'page_user': page_user
     }
     return render(request, 'edit_profile.html', context)
 
@@ -147,3 +149,46 @@ def feedback(request):
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'success': False})
+
+
+def post_detail(request, pk):
+    post = Post.objects.get(id=pk)
+    # setting up paginator
+    comment_list = post.comments().filter(is_published=True)
+    p = Paginator(comment_list, 3)
+    page = request.GET.get('page')
+    comments_p = p.get_page(page)
+
+    if request.method == 'POST':
+        c_form = CommentForm(request.POST)
+        if c_form.is_valid():
+            instance = c_form.save(commit=False)
+            if request.user.is_authenticated:
+                instance.user = request.user.username
+            else:
+                instance.user = 'anonymous'
+            instance.post = post
+            instance.save()
+            return redirect('post_detail', pk=post.id)
+    else:
+        c_form = CommentForm()
+    context = {
+        'post': post,
+        'c_form': c_form,
+        'comments_p': comments_p
+    }
+    return render(request, 'post_details.html', context)
+
+
+class ShowProfilePageView(generic.DetailView):
+    model = Profile
+    template_name = 'user_profile.html'
+
+    def get_context_data(self, *args, **kwargs):
+        # users = Profile.objects.all()
+        context = super(ShowProfilePageView, self).get_context_data(*args, **kwargs)
+
+        page_user = get_object_or_404(Profile, id=self.kwargs['pk'])
+
+        context["page_user"] = page_user
+        return context
