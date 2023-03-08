@@ -5,7 +5,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Blog</title>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   </head>
   <body>
@@ -45,59 +46,49 @@
                 <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                 <li><a class="dropdown-item" href="{% url 'profile_page' user.pk %}">Profile</a></li>
                 <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile</a></li>
-                <li><a type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <li><a type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#feedbackModal">
                       Feedback
                 </a></li>
               </ul>
           </ul>
-          <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <!-- Feedback Modal -->
+          <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
               <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">feedback</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <div class="row">
-                          <div class="col-md-8">
-                              <form id="feedback-form">
-                                  {% csrf_token %}
-                                  <div class="form-group">
-                                      <label for="feedback-text">Feedback:</label>
-                                      <textarea class="form-control" id="feedback-text" name="feedback-text" rows="5"></textarea>
-                                  </div>
-                                  <br/>
-                                  <button type="submit" class="btn btn-primary">Submit</button>
-                              </form>
-                              <div id="feedback-success" style="display: none;">
-                                  Thank you for your feedback!
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="feedbackModalLabel">Leave Feedback</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                          <form id="feedback-form">
+                              {% csrf_token %}
+                              <div class="form-group">
+                                  <label for="feedback-text">Feedback:</label>
+                                  <textarea class="form-control" id="feedback-text" name="feedback-text" rows="5"></textarea>
                               </div>
-                          </div>
+                              <br/>
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                          </form>
                       </div>
                   </div>
-                </div>
               </div>
-            </div>
+          </div>
           <script>
-              $(function() {
+              $(document).ready(function() {
                   $('#feedback-form').on('submit', function(event) {
                       event.preventDefault();
-                      var feedbackText = $('#feedback-text').val();
+                      var formData = $(this).serialize();
                       $.ajax({
                           type: 'POST',
                           url: '{% url "feedback" %}',
-                          data: {
-                              'feedback-text': feedbackText,
-                              'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
-                          },
+                          data: formData,
                           success: function(data) {
-                              if (data.success) {
-                                  $('#feedback-form').hide();
-                                  $('#feedback-success').show();
-                              } else {
-                                  alert('An error occurred while submitting your feedback.');
-                              }
+                              $('#feedback-form')[0].reset();
+                              $('#feedbackModal').modal('hide');
+                              alert('Thank you for your feedback!');
+                          },
+                          error: function(xhr, textStatus, errorThrown) {
+                              alert('There was an error submitting your feedback. Please try again later.');
                           }
                       });
                   });

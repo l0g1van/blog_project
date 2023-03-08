@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
@@ -141,12 +142,8 @@ def password_success(request):
 
 def feedback(request):
     if request.method == 'POST':
-        feedback_text = request.POST.get('feedback-text', '')
+        feedback_text = request.POST.get('feedback-text')
         send_feedback_email.delay(feedback_text, request.user.email)
-        data = {
-            'success': True,
-            'message': 'Thank you for your feedback!'
-        }
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'success': False})

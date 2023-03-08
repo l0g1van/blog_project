@@ -5,14 +5,13 @@
     <h1> {{ post.title }} </h1>
     <small>
         By: <a href="{% url 'profile_page' post.author.id %}">{{ post.author.username }}</a>
+    {% if post.author.id == user.id %}
         <a class="h6" href="{% url 'update_post' post.pk %}"> (Edit) </a>
+    {% endif %}
     </small>
     <hr>
     <br/><br/>
     <h4>{{ post.text | safe }}</h4>
-    {% if post.author.id == user.id %}
-        <br/><br/>
-    {% endif %}
     <a href="{% url 'home' %}"> <button class="btn btn-secondary"> Back </button> </a>
 </div>
 {% endblock %}
