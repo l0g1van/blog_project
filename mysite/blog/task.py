@@ -24,3 +24,15 @@ def post_created_email(email_text):
         ['admin@noreply.com'],
         fail_silently=False
     )
+
+
+@shared_task()
+def comment_created_email(email_text, user_email):
+    send_mail(
+        'New Comment Created',
+        email_text,
+        'server@noreply.com',
+        [f'{user_email}'],
+        fail_silently=False
+    )
+

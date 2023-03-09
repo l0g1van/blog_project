@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .models import Profile, Post
-from .task import post_created_email
+from .models import Profile, Post, Comment
+from .task import post_created_email, comment_created_email
 
 
 @receiver(post_save, sender=User)
@@ -16,3 +16,12 @@ def create_profile(sender, instance, created, *args, **kwargs):
 def post_created_message(instance, created, *args, **kwargs):
     if created:
         post_created_email.delay(f'User {instance.author.username}`ve just created a new post, named "{instance.title}"')
+
+
+@receiver(post_save, sender=Comment)
+def comment_created_message(instance, created, *args, **kwargs):
+    if created:
+        comment_created_email.delay(f'There is a new comment under '
+                                    f'your {instance.post.title} post, '
+                                    f'here is link to that post: http://127.0.0.1:8000/post/{instance.post.pk}',
+                                    instance.post.author.email)

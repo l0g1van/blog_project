@@ -12,7 +12,6 @@
     <hr>
     <br/><br/>
     <h4>{{ post.text | safe }}</h4>
-    <a href="{% url 'home' %}"> <button class="btn btn-secondary"> Back </button> </a>
 {#    <p class="mt-3">#}
 {#        <a class="" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"#}
 {#           aria-controls="collapseExample">#}
@@ -36,7 +35,8 @@
 {#        </div>#}
 {#    </div>#}
 <br/><br/>
-
+    <h1> Comments: </h1>
+<hr>
     {% for comment in comments_p %}
     <p class="text-justify">
     <div class="row">
@@ -71,7 +71,8 @@
         {% csrf_token %}
         {{ c_form|crispy }}
         <input class="btn btn-primary btn-sm" type="submit" value="Comment">
-    </form>
+    </form><br/>
+        <a href="{% url 'home' %}"> <button class="btn btn-secondary"> Back </button> </a>
 
 </div>
 

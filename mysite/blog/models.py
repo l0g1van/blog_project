@@ -13,7 +13,7 @@ class Post(models.Model):
     snippet = models.CharField(max_length=200, default='Click Link Above To Get More Info')
 
     def __str__(self):
-        return self.title, str(self.author)
+        return f'{self.title} {self.author}'
 
     def get_absolute_url(self):
         return reverse('post_detail', args=(str(self.id)))
