@@ -20,7 +20,7 @@ from django.urls import path, include
 
 from blog.views import RegisterView, PostDetailView, PostUpdateView, profile, PasswordsChangeView, \
     profile_view, logout_view, create_post, password_success, feedback, post_detail, ShowProfilePageView, HomePageView,\
-    posts
+    posts, post_delete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,14 +33,15 @@ urlpatterns = [
     path('create/', create_post, name='create_post'),
     path('profile/<int:pk>', profile_view, name='profile_page'),
     path('loguot/', logout_view, name='logout'),
-    path('update/<int:pk>', PostUpdateView.as_view(), name='update_post'),
+    path('update-post/<int:pk>', PostUpdateView.as_view(), name='update_post'),
     path('edit-profile/<int:pk>', profile, name='edit_profile'),
     path('password/', PasswordsChangeView.as_view(template_name='change_password.html'), name='change_password'),
     path('password-success', password_success, name='password_success'),
     path('user-profile/<int:pk>', ShowProfilePageView.as_view(), name='show_profile_page'),
 
     path('feedback/', feedback, name='feedback'),
-    path('posts/<int:pk>', posts, name='posts')
+    path('posts/<int:pk>', posts, name='posts'),
+    path('post-delete/<int:pk>', post_delete, name='post_delete')
 ]
 
 if settings.DEBUG:

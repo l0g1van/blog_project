@@ -5,8 +5,10 @@
     <h1> {{ post.title }} </h1>
     <small>
         By: <a href="{% url 'show_profile_page' post.author.id %}">{{ post.author.username }}</a>
+        <p> {{ post.date_published }} </p>
     {% if post.author.id == user.id %}
         <a class="h6" href="{% url 'update_post' post.pk %}"> (Edit) </a>
+        <a class="h6" href="{% url 'post_delete' post.pk %}"> (Delete) </a>
     {% endif %}
     </small>
     <hr>
