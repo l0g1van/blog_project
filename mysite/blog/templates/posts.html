@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Posts Page{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <h1>My Posts</h1>
+    <div class="row">
+        <div class="col-md-8">
+            {% for post in page_obj %}
+                <div class="shadow my-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class="img-thumbnail" src="{{ post.author.profile.image.url }}" alt="profile-img">
+                            </div>
+                            <div class="col-md-4">
+                                <a class="h2" href="{% url 'post_detail' post.pk %}"> {{ post.title }} </a>
+                                <hr>
+                                <small> {{ post.date_published }} </small>
+                                <p class="text-justify my-3 h4">
+{#                                    {{ post.text | safe }}#}
+                                    {{ post.snippet }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>You haven't written any posts yet.</p>
+            {% endfor %}
+
+            {% if page_obj.has_other_pages %}
+                <nav>
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">&laquo;</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lsaquo;</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">&laquo;</span>
+                            </li>
+                            <li class="page-item disabled">
+                                <span class="page-link">&lsaquo;</span>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-item"><a href="#" class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+{#                        {% for num in page_obj.paginator.page_range %}#}
+{#                            {% if page_obj.number == num %}#}
+{#                                <li class="page-item active">#}
+{#                                    <span class="page-link">{{ num }}</span>#}
+{#                                </li>#}
+{#                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}#}
+{#                                <li class="page-item">#}
+{#                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>#}
+{#                                </li>#}
+{#                            {% endif %}#}
+{#                        {% endfor %}#}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">&rsaquo;</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">&rsaquo;</span>
+                            </li>
+                            <li class="page-item disabled">
+                                <span class="page-link">&raquo;</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

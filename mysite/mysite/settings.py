@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_extensions',
 
     'blog'
 ]
@@ -148,4 +149,22 @@ CELERY_IMPORTS = ('blog.task',)
 CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
 CELERY_TIMEZONE = TIME_ZONE
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+if DEBUG:
+    INSTALLED_APPS.append('debug_toolbar')
+    # MIDDLEWARE.append('django.contrib.redirects.middleware.RedirectFallbackMiddleware')
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+    DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+        'INTERCEPT_REDIRECTS': False,
+        'ENABLE_STACKTRACES': True,
+        'RENDER_PANELS': True,
+    }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+    }
+}
 

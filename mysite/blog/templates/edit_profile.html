@@ -9,10 +9,10 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ u_form| crispy }}
+            <a href="{% url 'change_password' %}"><button type="button" class="btn btn-link">Change password</button></a>
             {{ p_form| crispy }}
             <button type="submit" class="btn btn-primary btn-sm">Save</button>
-            <a class="btn btn-secondary" href="{% url 'profile_page' user.pk %}">Back</a>
-
+            <a class="btn btn-secondary btn-sm" href="javascript:history.back()">Back</a>
         </form>
     </div>
 </div>

@@ -20,47 +20,91 @@
                             <h4>Username: {{ user.username }}</h4>
                             <h4>Email: {{ user.email }} </h4><br/><br/>
                             <span>
-                                <a class="btn btn-secondary" href="{% url 'edit_profile' %}">Edit Profile</a>
+                                <a class="btn btn-secondary" href="{% url 'edit_profile' user.pk %}">Edit Profile</a>
+                                <a class="btn btn-secondary" href="{% url 'posts' user.pk %}">{{ user.username }}`s Posts</a>
                             </span>
-{#                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">#}
-{#                              Edit Profile#}
-{#                            </button>#}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-{#<!-- Modal -->#}
-{#<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">#}
-{#  <div class="modal-dialog">#}
-{#    <div class="modal-content">#}
-{#      <div class="modal-header">#}
-{#        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Profile</h1>#}
-{#        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
-{#      </div>#}
-{#      <div class="modal-body">#}
-{#          <div class="row">#}
-{#              <div class="col-md-4">#}
-{#                  <img class="img-thumbnail" src="{{ user.profile.image.url }}" alt="">#}
-{#              </div>#}
-{#              <div class="col-md-8">#}
-{#                  <form method="POST" enctype="multipart/form-data">#}
-{#                      {% csrf_token %}#}
-{#                      {{ u_form|crispy }}#}
-{#                      {{ p_form|crispy }}#}
-{#                      <div class="modal-footer">#}
-{#                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>#}
-{#                        <button type="button" class="btn btn-primary">Save</button>#}
-{#                      </div>#}
-{#                  </form>#}
-{#              </div>#}
-{#          </div>#}
-{#      </div>#}
-{#    </div>#}
-{#  </div>#}
-{#</div>#}
+{#    <div class="container">#}
+{#        <div class="col-md-6 offset-md-2">#}
+{#            <h2> Posts of this user: </h2>#}
+{#        </div>#}
+{#        <div class="col-md-6 offset-md-5">#}
+{#            <div class="col-md-8">#}
+{#                {% for post in posts %}#}
+{#                    <div class="shadow my-3">#}
+{#                        <div class="card-body">#}
+{#                            <div class="row">#}
+{#                                <div class="col-md-4">#}
+{#                                    <img class="img-thumbnail" src="{{ post.author.profile.image.url }}" alt="profile-img">#}
+{#                                </div>#}
+{#                                <div class="col-md-8">#}
+{#                                    <a class="h2" href="{% url 'post_detail' post.pk %}"> {{ post.title }} </a>#}
+{#                                    <hr>#}
+{#                                    <small> {{ post.date_published }} </small>#}
+{#                                    <p class="text-justify my-3 h6">#}
+{#                                        {{ post.snippet }}#}
+{#                                    </p>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% empty %}#}
+{#                    <h4> This user haven`t posted anything yet </h4>#}
+{#                {% endfor %}#}
+{#                {% if page_obj.has_other_pages %}#}
+{#                        <ul class="pagination">#}
+{#                            {% if page_obj.has_previous %}#}
+{#                                <li class="page-item">#}
+{#                                    <a class="page-link" href="?page=1">&laquo;</a>#}
+{#                                </li>#}
+{#                                <li class="page-item">#}
+{#                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lsaquo;</a>#}
+{#                                </li>#}
+{#                            {% else %}#}
+{#                                <li class="page-item disabled">#}
+{#                                    <span class="page-link">&laquo;</span>#}
+{#                                </li>#}
+{#                                <li class="page-item disabled">#}
+{#                                    <span class="page-link">&lsaquo;</span>#}
+{#                                </li>#}
+{#                            {% endif %}#}
 {##}
+{#                            {% for num in page_obj.paginator.page_range %}#}
+{#                                {% if page_obj.number == num %}#}
+{#                                    <li class="page-item active">#}
+{#                                        <span class="page-link">{{ num }}</span>#}
+{#                                    </li>#}
+{#                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}#}
+{#                                    <li class="page-item">#}
+{#                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>#}
+{#                                    </li>#}
+{#                                {% endif %}#}
+{#                            {% endfor %}#}
+{##}
+{#                            {% if page_obj.has_next %}#}
+{#                                <li class="page-item">#}
+{#                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">&rsaquo;</a>#}
+{#                                </li>#}
+{#                                <li class="page-item">#}
+{#                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>#}
+{#                                </li>#}
+{#                            {% else %}#}
+{#                                <li class="page-item disabled">#}
+{#                                    <span class="page-link">&rsaquo;</span>#}
+{#                                </li>#}
+{#                                <li class="page-item disabled">#}
+{#                                    <span class="page-link">&raquo;</span>#}
+{#                                </li>#}
+{#                            {% endif %}#}
+{#                        </ul>#}
+{#                {% endif %}#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+</div>
 {% endblock %}

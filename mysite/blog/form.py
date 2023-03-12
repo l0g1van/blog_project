@@ -40,13 +40,13 @@ class RegisterForm(UserCreationForm):
 class EditProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email']
 
-    def __init__(self, *args, **kwargs):
-        super(EditProfileForm, self).__init__(*args, **kwargs)
-
-        for fieldname in ['username', 'email']:
-            self.fields[fieldname].help_text = None
+    # def __init__(self, *args, **kwargs):
+    #     super(EditProfileForm, self).__init__(*args, **kwargs)
+    #
+    #     for fieldname in ['username', 'first_name', 'last_name', 'email']:
+    #         self.fields[fieldname].help_text = None
 
 
 class PasswordChangingForm(PasswordChangeForm):
