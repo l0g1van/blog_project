@@ -149,7 +149,7 @@ class ShowProfilePageView(generic.DetailView):
         return context
 
 
-@login_required
+@login_required(login_url='/login/')
 def posts(request, pk):
     post_list = Post.objects.filter(author__id=pk)
     paginator = Paginator(post_list, 5)
@@ -158,7 +158,7 @@ def posts(request, pk):
     return render(request, 'posts.html', {'page_obj': page_obj})
 
 
-@login_required
+@login_required(login_url='/login/')
 def post_delete(request, pk):
     post = Post.objects.get(id=pk)
     if request.method == 'POST':
