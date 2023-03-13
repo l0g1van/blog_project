@@ -517,59 +517,5 @@
         "is_published": true,
         "date_published": "2023-03-12T20:25:13.222Z"
     }
-},
-{
-    "model": "auth.user",
-    "pk": 1,
-    "fields": {
-        "password": "pbkdf2_sha256$390000$f9L1eY151HSuNCEKCZYmG3$Sp7B25wAquwyhBvVcQNuaBos0ZR1YXmljyepM5xAKvQ=",
-        "last_login": "2023-03-12T20:31:42.621Z",
-        "is_superuser": true,
-        "username": "admin",
-        "first_name": "",
-        "last_name": "",
-        "email": "admin@admin.com",
-        "is_staff": true,
-        "is_active": true,
-        "date_joined": "2023-03-12T19:42:41.311Z",
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "auth.user",
-    "pk": 2,
-    "fields": {
-        "password": "pbkdf2_sha256$390000$zzbRjm6atTEjJJ2Ak0rl3m$66TArRtAOh1F/nJdq0VrOkUqUfeIbGYifBUAIEFS1SM=",
-        "last_login": "2023-03-12T20:04:53.791Z",
-        "is_superuser": false,
-        "username": "user",
-        "first_name": "User",
-        "last_name": "User",
-        "email": "user@noreply.com",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-03-12T20:04:46.665Z",
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "auth.user",
-    "pk": 3,
-    "fields": {
-        "password": "pbkdf2_sha256$390000$WVYe05iKJIP5BK8g37aZ6d$O4ZyGvjFv70MQ1E14TgpQf9UVoj7PJKyZRpbj3VliiE=",
-        "last_login": "2023-03-12T20:13:06.352Z",
-        "is_superuser": false,
-        "username": "user2",
-        "first_name": "User2",
-        "last_name": "User2",
-        "email": "user2@noreply.com",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-03-12T20:12:54.303Z",
-        "groups": [],
-        "user_permissions": []
-    }
 }
 ]
