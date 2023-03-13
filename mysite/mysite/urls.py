@@ -16,11 +16,11 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 
-from blog.views import RegisterView, PostDetailView, PostUpdateView, profile, PasswordsChangeView, \
-    profile_view, logout_view, create_post, password_success, feedback, post_detail, ShowProfilePageView, HomePageView,\
-    posts
+from blog.views import HomePageView, PasswordsChangeView, PostUpdateView, RegisterView, \
+    ShowProfilePageView, create_post, feedback, logout_view, password_success, post_detail, \
+    posts, profile, profile_view  # noqa I100
 
 urlpatterns = [
     path('admin/', admin.site.urls),

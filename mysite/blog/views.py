@@ -4,16 +4,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect, get_object_or_404
-from django.utils.decorators import method_decorator
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
-from django.http import JsonResponse
-from django.views.decorators.cache import cache_page
 
 from .models import Post, Profile
 
-from .form import PostForm, RegisterForm, EditProfileForm, PasswordChangingForm, ProfileUpdateForm, FeedbackForm, CommentForm
+from .form import CommentForm, EditProfileForm, FeedbackForm, PasswordChangingForm,\
+    PostForm, ProfileUpdateForm, RegisterForm  # noqa I100
 from .task import send_feedback_email
 
 

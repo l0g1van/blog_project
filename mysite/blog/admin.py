@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Profile, Comment, Post
+from .models import Comment, Post, Profile
 
 
 @admin.register(Comment)
@@ -38,5 +38,3 @@ class ProfileAdmin(admin.ModelAdmin):
         ('Users Profile Image', {'fields': ['image']})
                  ]
     search_fields = ['user']
-
-

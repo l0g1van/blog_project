@@ -1,10 +1,9 @@
-from datetime import datetime
+from ckeditor.fields import RichTextField
 
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.urls import reverse
-from ckeditor.fields import RichTextField
 
 
 class Post(models.Model):

@@ -1,7 +1,6 @@
-import requests
+from celery import shared_task
 
 from django.core.mail import send_mail
-from celery import shared_task
 
 
 @shared_task()
@@ -35,4 +34,3 @@ def comment_created_email(email_text, user_email):
         [f'{user_email}'],
         fail_silently=False
     )
-
