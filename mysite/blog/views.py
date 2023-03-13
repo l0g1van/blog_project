@@ -24,10 +24,6 @@ class HomePageView(generic.ListView):
     def get_queryset(self):
         return Post.objects.order_by('-date_published')
 
-    # @method_decorator(cache_page(60 * 60 * 24))
-    # def get(self, request, *args, **kwargs):
-    #     return super().get(request, *args, **kwargs)
-
 
 class PostDetailView(generic.DetailView):
     model = Post
@@ -40,10 +36,11 @@ class RegisterView(generic.CreateView):
     success_url = reverse_lazy('login')
 
 
-class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
+class PostUpdateView(generic.UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'update_post.html'
+    success_url = reverse_lazy('home')
 
 
 @login_required(login_url='/login/')
@@ -159,3 +156,15 @@ def posts(request, pk):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'posts.html', {'page_obj': page_obj})
+
+
+@login_required
+def post_delete(request, pk):
+    post = Post.objects.get(id=pk)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('home')
+    context = {
+        'post': post
+    }
+    return render(request, 'post_delete.html', context)
