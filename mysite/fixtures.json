@@ -213,7 +213,7 @@
     "pk": 1,
     "fields": {
         "user": 1,
-        "image": "profile_page/default.jpg"
+        "image": "profile/default.jpg"
     }
 },
 {

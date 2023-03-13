@@ -23,12 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,7 +38,6 @@ INSTALLED_APPS = [
     'ckeditor',
     'crispy_forms',
     'crispy_bootstrap5',
-    'django_extensions',
 
     'blog'
 ]
@@ -117,13 +114,14 @@ USE_I18N = True
 
 USE_TZ = True
 
+# CRISPY_FORMS
+
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -132,15 +130,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'home'
 
-MEDIA_ROOT = (BASE_DIR / 'media')
+# MEDIA
 
+MEDIA_ROOT = (BASE_DIR / 'media')
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = (BASE_DIR / 'asset')
+# STATIC
 
+STATIC_ROOT = (BASE_DIR / 'asset')
+STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+# CELERY
 
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
@@ -150,8 +153,19 @@ CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
 CELERY_TIMEZONE = TIME_ZONE
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# CACHE
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+    }
+}
+
+
 if DEBUG:
     INSTALLED_APPS.append('debug_toolbar')
+    INSTALLED_APPS.append('django_extensions')
     # MIDDLEWARE.append('django.contrib.redirects.middleware.RedirectFallbackMiddleware')
     MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
     DEBUG_TOOLBAR_CONFIG = {
@@ -160,10 +174,8 @@ if DEBUG:
         'ENABLE_STACKTRACES': True,
         'RENDER_PANELS': True,
     }
+    ALLOWED_HOSTS = ['*']
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379',
-    }
-}
+    INTERNAL_IPS = [
+        '127.0.0.1'
+    ]
